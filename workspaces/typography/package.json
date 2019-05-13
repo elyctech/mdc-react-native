@@ -2,7 +2,7 @@
   "name": "@mdc-react-native/typography",
   "version": "0.1.0",
   "description": "A React Native implementation of Material Design's Typography components.",
-  "main": "src/lib",
+  "main": "src/ui",
   "author": "Cyle Ven Dawson",
   "license": "MIT",
   "private": false,
