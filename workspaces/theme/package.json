@@ -2,7 +2,7 @@
   "name": "@mdc-react-native/theme",
   "version": "0.1.0",
   "description": "A React Native implementation of Material Design's Theme utility.",
-  "main": "src/app/service",
+  "main": "index.ts",
   "author": "Cyle Ven Dawson",
   "license": "MIT",
   "private": false,
