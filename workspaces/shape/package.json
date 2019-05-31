@@ -1,6 +1,6 @@
 {
   "name": "@mdc-react-native/shape",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A React Native implementation of Material Design's Shape utility.",
   "main": "src/app/service",
   "author": "Cyle Ven Dawson",
