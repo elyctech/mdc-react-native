@@ -183,11 +183,11 @@ class StandardMdcThemeService implements MdcThemeService
     {
       if (themeFunctions.getContrastTone(theme.error) === "dark")
       {
-        theme.onError = "#000";
+        theme.onError = "#fff";
       }
       else
       {
-        theme.onError = "#fff";
+        theme.onError = "#000";
       }
     }
 
@@ -195,11 +195,11 @@ class StandardMdcThemeService implements MdcThemeService
     {
       if (themeFunctions.getContrastTone(theme.primary) === "dark")
       {
-        theme.onPrimary = "#000";
+        theme.onPrimary = "#fff";
       }
       else
       {
-        theme.onPrimary = "#fff";
+        theme.onPrimary = "#000";
       }
     }
 
@@ -207,11 +207,11 @@ class StandardMdcThemeService implements MdcThemeService
     {
       if (themeFunctions.getContrastTone(theme.secondary) === "dark")
       {
-        theme.onSecondary = "#000";
+        theme.onSecondary = "#fff";
       }
       else
       {
-        theme.onSecondary = "#fff";
+        theme.onSecondary = "#000";
       }
     }
 
@@ -219,11 +219,11 @@ class StandardMdcThemeService implements MdcThemeService
     {
       if (themeFunctions.getContrastTone(theme.surface) === "dark")
       {
-        theme.onSurface = "#000";
+        theme.onSurface = "#fff";
       }
       else
       {
-        theme.onSurface = "#fff";
+        theme.onSurface = "#000";
       }
     }
 
