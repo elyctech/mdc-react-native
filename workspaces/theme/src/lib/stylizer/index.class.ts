@@ -80,7 +80,7 @@ class StandardMdcThemeStylizer implements MdcThemeStylizer
 
   public getDisabledTextOnDark() : string
   {
-     return this.disabledTextOnDark;
+    return this.disabledTextOnDark;
   }
 
   public getDisabledTextOnLight() : string
