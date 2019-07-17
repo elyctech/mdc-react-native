@@ -1,6 +1,6 @@
 {
   "name": "@mdc-react-native/elevation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A React Native implementation of Material Design's Elevation utility.",
   "main": "dist/app/service/index.js",
   "types": "dist/app/service/index.d.ts",
