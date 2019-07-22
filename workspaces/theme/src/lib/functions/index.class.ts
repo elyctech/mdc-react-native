@@ -11,8 +11,8 @@ import MdcThemeTextTone           from "../text-tone/index.type";
 
 const componentLuminance  = (
   component : number
-) => {
-  return component < 0.02938 ? component / 12.92 : Math.pow((component + 0.055) / 1.055, 2.4);
+) : number => {
+  return component < 0.03928 ? component / 12.92 : Math.pow((component + 0.055) / 1.055, 2.4);
 };
 
 class StandardMdcThemeFunctions implements MdcThemeFunctions
@@ -45,8 +45,8 @@ class StandardMdcThemeFunctions implements MdcThemeFunctions
     frontColor  : string
   ) : number
   {
-    const backLuminance   = this.getLuminance(backColor);
-    const frontLuminance  = this.getLuminance(frontColor);
+    const backLuminance   = this.getLuminance(backColor)  + 0.05;
+    const frontLuminance  = this.getLuminance(frontColor) + 0.05;
 
     return Math.max(backLuminance, frontLuminance) / Math.min(backLuminance, frontLuminance);
   }
@@ -65,15 +65,15 @@ class StandardMdcThemeFunctions implements MdcThemeFunctions
     // https://stackoverflow.com/a/11068286/1253396
     let colorMatch  : RegExpMatchArray | null;
 
-    let blue  : number  = 0;
-    let green : number  = 0;
-    let red   : number  = 0;
+    let blue  = 0;
+    let green = 0;
+    let red   = 0;
 
     // Three character component: #rgb
     if (
       colorMatch = color.match(/^#([0-9a-f]{3})$/i)
     ) {
-      let parsedColor = colorMatch[1];
+      const parsedColor = colorMatch[1];
 
       blue  = parseInt(parsedColor.charAt(2), 16) * 0x11;
       green = parseInt(parsedColor.charAt(1), 16) * 0x11;
@@ -83,7 +83,7 @@ class StandardMdcThemeFunctions implements MdcThemeFunctions
     else if (
       colorMatch = color.match(/^#([0-9a-f]{6})$/i)
     ) {
-      let parsedColor = colorMatch[1];
+      const parsedColor = colorMatch[1];
 
       blue  = parseInt(parsedColor.substring(4, 6), 16);
       green = parseInt(parsedColor.substring(2, 4), 16);
@@ -93,14 +93,13 @@ class StandardMdcThemeFunctions implements MdcThemeFunctions
     else if (
       colorMatch = color.match(/^rgba?\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*\d(?:\.\d+)?\s*)?\)$/i)
     ) {
-      blue  = parseInt(colorMatch[2], 10);
-      green = parseInt(colorMatch[1], 10);
-      red   = parseInt(colorMatch[0], 10);
+      blue  = parseInt(colorMatch[3], 10);
+      green = parseInt(colorMatch[2], 10);
+      red   = parseInt(colorMatch[1], 10);
     }
     // TODO hsl(a) and color names
     else
     {
-      console.log("ARSTARST", color);
       throw new Error("Unsupported color format. Please use Hexadecimal or RGB(A).");
     }
 
