@@ -213,7 +213,7 @@ export default function MdcLeftSheetMain(
       }
       else
       {
-        openSheetAnimation  = ()  : void => 
+        openSheetAnimation  = ()  : void =>
         {
           Animated.parallel(
             [
@@ -296,14 +296,12 @@ export default function MdcLeftSheetMain(
     scrimStyle  = {
       "backgroundColor" : theme.getOnSurface(),
       "flex"            : 1,
-      "opacity"         : animatedScrimOpacity,
-      "zIndex"          : 7
+      "opacity"         : animatedScrimOpacity
     };
 
     sheetStyle.bottom   = 0;
     sheetStyle.position = "absolute";
     sheetStyle.top      = 0;
-    sheetStyle.zIndex   = 6;
   }
   else
   {
