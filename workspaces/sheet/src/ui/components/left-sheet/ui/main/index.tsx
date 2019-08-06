@@ -11,6 +11,7 @@ import {
   Animated,
   Dimensions,
   StyleProp,
+  StyleSheet,
   TouchableWithoutFeedback,
   View,
   ViewStyle
@@ -76,7 +77,7 @@ export default function MdcLeftSheetMain(
     )
   ).current;
 
-  const sheetWidth  = useRef(
+  const containerWidth  = useRef(
     new Animated.Value(
       0
     )
@@ -129,7 +130,7 @@ export default function MdcLeftSheetMain(
           ).start(
             () : void =>
             {
-              sheetWidth.setValue(
+              containerWidth.setValue(
                 0
               );
             }
@@ -144,7 +145,7 @@ export default function MdcLeftSheetMain(
             [
               closeTranslationAnimation,
               Animated.timing(
-                sheetWidth,
+                containerWidth,
                 {
                   "duration"  : closeDuration,
                   "toValue"   : 0
@@ -161,8 +162,8 @@ export default function MdcLeftSheetMain(
       animatedScrimOpacity,
       closeTranslationAnimation,
       closeDuration,
-      modal,
-      sheetWidth
+      containerWidth,
+      modal
     ]
   );
 
@@ -193,8 +194,15 @@ export default function MdcLeftSheetMain(
         openSheetAnimation  = ()  : void =>
         {
           // Ensure the entire screen is covered, even as the sheet is sliding in and out
-          sheetWidth.setValue(
-            Dimensions.get("screen").width + width
+          const {
+            height  : screenHeight,
+            width   : screenWidth
+          } = Dimensions.get(
+            "screen"
+          );
+
+          containerWidth.setValue(
+            Math.max(screenHeight, screenWidth) + width
           );
 
           Animated.parallel(
@@ -219,7 +227,7 @@ export default function MdcLeftSheetMain(
             [
               openTranslationAnimation,
               Animated.timing(
-                sheetWidth,
+                containerWidth,
                 {
                   "duration"  : openDuration,
                   "toValue"   : width
@@ -234,11 +242,11 @@ export default function MdcLeftSheetMain(
     },
     [
       animatedScrimOpacity,
+      containerWidth,
       openTranslationAnimation,
       openDuration,
       modal,
       scrimOpacity,
-      sheetWidth,
       width
     ]
   );
@@ -264,13 +272,27 @@ export default function MdcLeftSheetMain(
 
   // Style
 
-  const containerStyle : StyleProp<ViewStyle> = [
-    {
-      width,
+  // Animated.View "style" property is defined as "any", so we cannot take advantage of
+  // strong typing here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const containerBaseStyle  : any = {
+    "flex"          : 1,
+    "flexDirection" : "row",
+    "width"         : containerWidth,
+    "zIndex"        : 6,
 
-      "backgroundColor" : theme.getSurface(),
-      "zIndex"          : 6
-    }
+    "transform" : [
+      {
+        translateX
+      }
+    ]
+  };
+
+  // Animated.View "style" property is defined as "any", so we cannot take advantage of
+  // strong typing here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const containerStyle : any = [
+    containerBaseStyle
   ];
 
   // Animated.View "style" property is defined as "any", so we cannot take advantage of
@@ -278,45 +300,43 @@ export default function MdcLeftSheetMain(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let scrimStyle  : any;
 
-  // Animated.View "style" property is defined as "any", so we cannot take advantage of
-  // strong typing here
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sheetStyle : any = {
-    "flexDirection" : "row",
-    "left"          : translateX,
-    "width"         : sheetWidth
+  const sheetBaseStyle  : StyleProp<ViewStyle> = {
+    width,
+
+    "backgroundColor" : theme.getSurface(),
+    "zIndex"          : 6
   };
+
+  const sheetStyle : StyleProp<ViewStyle> = [
+    sheetBaseStyle
+  ];
 
   if (modal)
   {
     containerStyle.push(
-      elevationService.getElevationStylizer().getElevationStyle(16)
+      StyleSheet.absoluteFill
     );
 
     scrimStyle  = {
       "backgroundColor" : theme.getOnSurface(),
       "flex"            : 1,
-      "opacity"         : animatedScrimOpacity
+      "opacity"         : animatedScrimOpacity,
+      "zIndex"          : 5
     };
 
-    sheetStyle.bottom   = 0;
-    sheetStyle.position = "absolute";
-    sheetStyle.top      = 0;
-  }
-  else
-  {
-    sheetStyle.flex = 1;
+    sheetStyle.push(
+      StyleSheet.absoluteFill
+    );
+
+    sheetStyle.push(
+      elevationService.getElevationStylizer().getElevationStyle(16)
+    );
   }
 
   return (
     <Animated.View
-      style = {sheetStyle}
+      style = {containerStyle}
     >
-      <View
-        style = {containerStyle}
-      >
-        {children}
-      </View>
       { modal &&
         <TouchableWithoutFeedback
           onPress = {onClose}
@@ -326,6 +346,11 @@ export default function MdcLeftSheetMain(
           />
         </TouchableWithoutFeedback>
       }
+      <View
+        style = {sheetStyle}
+      >
+        {children}
+      </View>
     </Animated.View>
   );
 }
