@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@mdc-react-native/elevation": "^0.2.1",
-    "@mdc-react-native/theme": "^0.2.2",
+    "@mdc-react-native/theme": "^0.2.3",
     "react": "16.8.3",
     "react-native": "0.59.5"
   },
